@@ -49,7 +49,7 @@ func MessengerVerify(w http.ResponseWriter, r *http.Request) {
 		input := new(MessengerInput)
 		if err := json.NewDecoder(r.Body).Decode(input); err == nil {
 			log.Println("got message:", input.Entry[0].Messaging[0].Message.Text)
-			log.Println("INPUT :", input)
+			log.Println("INPUT :", input[0])
 			reply := input.Entry[0].Messaging[0]
 			reply.Sender, reply.Recipient = reply.Recipient, reply.Sender
 
