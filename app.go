@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	FACEBOOK_API = "https://graph.facebook.com/v3.3/me/messages?access_token=EAAf5m6IkbZAUBAHBx5c7ckGJPHZCkfu1kuBZCqPjb7Onmvx9ZABc6CXdCvXy6cpvf8FFzaoPkdNs0Bc3yE25KhN4tVbJrQxUAXOkATkRbTfnJac5uWFRJWSF1fVhwFEBtegIxdV9D6yuNh2B0O3f1iRLeSHx2k44JZBq5DEG1UDycch5LuSry"
+	FACEBOOK_API = "https://graph.facebook.com/v3.3/me/messages?access_token=EAAf5m6IkbZAUBAGfEZALvFtyRj8ahcT0kE9FTKiCz7owzkdwthWDabMHrfhZCEhouIj9pzbYJBnbbWzhZBycU8QVLGyBoxqzflv7AgLQLAD7m0zSCtLdjz1nWdB1JZAiFYMzbpPZCfdZAoUAYKgHGhizfD8j71cgTrlaOdj4EYBZBtHeZBQZCtC6XU"
 	IMAGE        = "http://37.media.tumblr.com/e705e901302b5925ffb2bcf3cacb5bcd/tumblr_n6vxziSQD11slv6upo3_500.gif"
 )
 
@@ -65,7 +65,7 @@ func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	mode := r.URL.Query().Get("hub.mode")
 	token := r.URL.Query().Get("hub.verify_token")
 
-	if mode != "" && token == os.Getenv("VERIFY_TOKEN") {
+	if mode != "" && token == os.Getenv("golang_chatbot") {
 		w.WriteHeader(200)
 		w.Write([]byte(challenge))
 	} else {
@@ -91,7 +91,7 @@ func ProcessMessage(event Messaging) {
 	}
 	body := new(bytes.Buffer)
 	json.NewEncoder(body).Encode(&response)
-	url := fmt.Sprintf(FACEBOOK_API, os.Getenv("PAGE_ACCESS_TOKEN"))
+	url := fmt.Sprintf(FACEBOOK_API, os.Getenv("EAAf5m6IkbZAUBAGfEZALvFtyRj8ahcT0kE9FTKiCz7owzkdwthWDabMHrfhZCEhouIj9pzbYJBnbbWzhZBycU8QVLGyBoxqzflv7AgLQLAD7m0zSCtLdjz1nWdB1JZAiFYMzbpPZCfdZAoUAYKgHGhizfD8j71cgTrlaOdj4EYBZBtHeZBQZCtC6XU"))
 	req, err := http.NewRequest("POST", url, body)
 	req.Header.Add("Content-Type", "application/json")
 	if err != nil {
