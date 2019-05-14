@@ -64,12 +64,10 @@ func MessengerVerify(w http.ResponseWriter, r *http.Request) {
 		if err := json.NewDecoder(r.Body).Decode(input); err == nil {
 			log.Println("got message:", input.Entry[0].Messaging[0].Message.Text)
 
-			//lets swap sender and recipient
 			reply := input.Entry[0].Messaging[0]
 			reply.Sender, reply.Recipient = reply.Recipient, reply.Sender
 
-			//reply with a very creative message
-			reply.Message.Text = "hoooo!"
+			reply.Message.Text = input.Entry[0].Messaging[0].Message.Text
 			reply.Message.Seq = 0
 			reply.Message.Mid = ""
 
