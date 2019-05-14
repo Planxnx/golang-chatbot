@@ -35,19 +35,20 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func MessengerVerify(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
-		challenge := r.URL.Query().Get("hub.challenge")
-		verify_token := r.URL.Query().Get("hub.verify_token")
+func MessengerVerify(res http.ResponseWriter, req *http.Request) {
+	if req.Method == "GET" {
+		challenge := req.URL.Query().Get("hub.challenge")
+		verify_token := req.URL.Query().Get("hub.verify_token")
 		if len(verify_token) > 0 && len(challenge) > 0 && verify_token == "planx-golang" {
-			w.Header().Set("Content-Type", "text/plain")
-			fmt.Fprintf(w, challenge)
+			res.Header().Set("Content-Type", "text/plain")
+			fmt.Fprintf(res, challenge)
 			return
 		}
-	} else if r.Method == "POST" {
-		defer r.Body.Close()
+	} else if req.Method == "POST" {
+		defer req.Body.Close()
 		input := new(MessengerInput)
-		if err := json.NewDecoder(r.Body).Decode(input); err == nil {
+		if err := json.NewDecoder(req.Body).Decode(input); err == nil {
+
 			log.Println("Sender ID :", input.Entry[0].Messaging[0].Sender.Id)
 			log.Println("message:", input.Entry[0].Messaging[0].Message.Text)
 
@@ -66,7 +67,7 @@ func MessengerVerify(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(400)
-	fmt.Fprintf(w, "Bad Request")
+	res.Header().Set("Content-Type", "text/plain")
+	res.WriteHeader(400)
+	fmt.Fprintf(res, "Bad Request")
 }
