@@ -49,6 +49,7 @@ func main() {
 
 func MessengerVerify(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
+		log.Println("Got GET")
 		challenge := r.URL.Query().Get("hub.challenge")
 		verify_token := r.URL.Query().Get("hub.verify_token")
 		if len(verify_token) > 0 && len(challenge) > 0 && verify_token == "planx-golang" {
@@ -57,6 +58,7 @@ func MessengerVerify(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	} else if r.Method == "POST" {
+		log.Println("Got POST")
 		defer r.Body.Close()
 		input := new(MessengerInput)
 		if err := json.NewDecoder(r.Body).Decode(input); err == nil {
