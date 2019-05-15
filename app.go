@@ -58,7 +58,7 @@ func MessengerVerify(res http.ResponseWriter, req *http.Request) {
 			reply := input.Entry[0].Messaging[0]
 			reply.Sender, reply.Recipient = reply.Recipient, reply.Sender
 
-			if input.Entry[0].Messaging[0].Sender.Id == 2222082947888679 {
+			if input.Entry[0].Messaging[0].Sender.Id == strconv.Itoa(2222082947888679) {
 				developMessegeCounter++
 				reply.Message.Text = "(" + strconv.Itoa(developMessegeCounter) + ")" + input.Entry[0].Messaging[0].Message.Text
 			} else {
