@@ -33,12 +33,12 @@ type MessengerInput struct {
 
 func main() {
 	http.HandleFunc("/webhook", MessengerVerify)
-
 	fmt.Println("Starting server on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func MessengerVerify(res http.ResponseWriter, req *http.Request) {
+
 	if req.Method == "GET" {
 		challenge := req.URL.Query().Get("hub.challenge")
 		verify_token := req.URL.Query().Get("hub.verify_token")
@@ -53,11 +53,10 @@ func MessengerVerify(res http.ResponseWriter, req *http.Request) {
 		if err := json.NewDecoder(req.Body).Decode(input); err == nil {
 
 			log.Println("Sender ID :", input.Entry[0].Messaging[0].Sender.Id)
-			log.Println("message:", input.Entry[0].Messaging[0].Message.Text)
+			log.Println("Message :", input.Entry[0].Messaging[0].Message.Text)
 
 			reply := input.Entry[0].Messaging[0]
 			reply.Sender, reply.Recipient = reply.Recipient, reply.Sender
-
 			if input.Entry[0].Messaging[0].Sender.Id == strconv.Itoa(2222082947888679) {
 				developMessegeCounter++
 				reply.Message.Text = "(" + strconv.Itoa(developMessegeCounter) + ")" + input.Entry[0].Messaging[0].Message.Text
