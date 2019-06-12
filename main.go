@@ -32,13 +32,20 @@ type MessengerInput struct {
 }
 
 func main() {
+	http.HandleFunc("/", index)
 	http.HandleFunc("/webhook", MessengerVerify)
 	fmt.Println("Starting server on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
+func index(w http.ResponseWriter, _ *http.Request) {
+	fmt.Fprint(w, "./index")
+	log.Println("access index")
+}
+
 func MessengerVerify(res http.ResponseWriter, req *http.Request) {
 
+	log.Println("access webhook")
 	if req.Method == "GET" {
 		challenge := req.URL.Query().Get("hub.challenge")
 		verify_token := req.URL.Query().Get("hub.verify_token")
