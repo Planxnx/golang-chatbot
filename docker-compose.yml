@@ -1,0 +1,11 @@
+
+version: '3'
+services:
+  server:
+    build: ./
+    volumes:
+      - .:/go/src/golang-chatbot
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
