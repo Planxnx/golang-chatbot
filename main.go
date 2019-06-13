@@ -7,35 +7,18 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
+	"golang-chatbot/models"
 )
 
 var developMessegeCounter = 0
-
-type MessengerInput struct {
-	Entry []struct {
-		Time      uint64 `json:"time,omitempty"`
-		Messaging []struct {
-			Sender struct {
-				Id string `json:"id"`
-			} `json:"sender,omitempty"`
-			Recipient struct {
-				Id string `json:"id"`
-			} `json:"recipient,omitempty"`
-			Timestamp uint64 `json:"timestamp,omitempty"`
-			Message   *struct {
-				Mid  string `json:"mid,omitempty"`
-				Seq  uint64 `json:"seq,omitempty"`
-				Text string `json:"text"`
-			} `json:"message,omitempty"`
-		} `json:"messaging"`
-	}
-}
 
 func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/webhook", MessengerVerify)
 	fmt.Println("Starting server on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
+
 }
 
 func index(w http.ResponseWriter, _ *http.Request) {
@@ -56,7 +39,7 @@ func MessengerVerify(res http.ResponseWriter, req *http.Request) {
 		}
 	} else if req.Method == "POST" {
 		defer req.Body.Close()
-		input := new(MessengerInput)
+		input := new(models.MessengerInput)
 		if err := json.NewDecoder(req.Body).Decode(input); err == nil {
 
 			log.Println("Sender ID :", input.Entry[0].Messaging[0].Sender.Id)
