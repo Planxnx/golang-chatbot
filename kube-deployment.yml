@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: golang-chatbot
-        image: golang-chatbot
+        image: gcr.io/optimal-tide-243614/golang-chatbot:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
