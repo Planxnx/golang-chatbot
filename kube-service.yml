@@ -8,6 +8,7 @@ spec:
   type: LoadBalancer
   ports:
     port: 8000
+    targetPort: 80
   selector:
     app: golang-chatbot
     
