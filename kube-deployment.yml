@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: golang-chatbot-deployment
@@ -6,11 +6,9 @@ metadata:
     app: golang-chatbot
 spec:
   replicas: 2
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 50%
-      maxSurge: 1
+  selector:
+    matchLabels:
+      app: golang-chatbot
   template:
     metadata:
       labels:
@@ -20,20 +18,11 @@ spec:
       - name: golang-chatbot
         image: gcr.io/optimal-tide-243614/golang-chatbot:1.0
         imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
         readinessProbe:
           httpGet:
-            path: /readyz
-            port: 8080
-        resources:
-          limits:
-            cpu: 10m
-            memory: 30Mi
-          requests:
-            cpu: 10m
-            memory: 30Mi
+            path: /
+            port: 80
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
