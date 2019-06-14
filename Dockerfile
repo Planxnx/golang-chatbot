@@ -9,5 +9,6 @@ RUN go get -v
 
 RUN go get github.com/githubnemo/CompileDaemon
 
+EXPOSE 8080
 
 ENTRYPOINT CompileDaemon -log-prefix=false -build="go build -o golang-chatbot" -command="./golang-chatbot"
