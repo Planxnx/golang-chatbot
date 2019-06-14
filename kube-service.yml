@@ -5,11 +5,9 @@ metadata:
   labels:
     app: golang-chatbot
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - name: golang-chatbot-service
     port: 8000
-    targetPort: 80
   selector:
     app: golang-chatbot
     
