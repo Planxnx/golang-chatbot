@@ -16,4 +16,4 @@ spec:
       - path: /*
         backend:
           serviceName: golang-chatbot-service
-          servicePort: 80
+          servicePort: 8080

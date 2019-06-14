@@ -9,7 +9,7 @@ spec:
   ports:
   - name: golang-chatbot-service
     port: 8000
-    targetPort: 80
+    targetPort: 8080
   selector:
     app: golang-chatbot
     
