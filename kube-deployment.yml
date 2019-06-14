@@ -5,10 +5,10 @@ metadata:
   labels:
     app: golang-chatbot
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: golang-chatbot
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -17,12 +17,5 @@ spec:
       containers:
       - name: golang-chatbot
         image: gcr.io/optimal-tide-243614/golang-chatbot:1.0
-        imagePullPolicy: Always
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          periodSeconds: 1
-          timeoutSeconds: 1
-          successThreshold: 1
-          failureThreshold: 10
+        ports:
+        - containerPort: 80
